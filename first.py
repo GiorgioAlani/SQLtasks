@@ -8,12 +8,10 @@ class SchoolDatabase:
         self.connect()
 
     def connect(self):
-        """Подключение к базе данных."""
         self.conn = sqlite3.connect(self.db_name)
         self.cursor = self.conn.cursor()
 
     def create_tables(self):
-        """Создание таблиц, если они не существуют."""
         self.cursor.execute("""
             CREATE TABLE IF NOT EXISTS Students (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,7 +43,6 @@ class SchoolDatabase:
         self.conn.commit()
 
     def populate_data(self):
-        """Заполнение таблиц данными, если они еще не заполнены."""
         
         self.cursor.execute("SELECT COUNT(*) FROM Courses")
         if self.cursor.fetchone()[0] == 0:
@@ -124,8 +121,6 @@ class SchoolDatabase:
 
 
 def main():
-    """Основная функция для демонстрации работы класса."""
-    print("=== Задача 3: Реализация через класс ===\n")
     
     db = SchoolDatabase()
 
@@ -144,7 +139,6 @@ def main():
     for student in db.get_students_by_course_and_city('python', 'Spb'):
         print(student)
 
-    print("\n--- Демонстрация универсальной функции execute_query ---")
     result = db.execute_query("SELECT COUNT(*) FROM Students")
     print(f"Общее количество студентов: {result[0][0]}")
 
@@ -152,8 +146,8 @@ def main():
 
 
 def test_functionality():
-    """Тестирование функционала класса."""
-    print("\n=== Тестирование функционала ===")
+    """тестирование"""
+    print("\n=== Тестирование ===")
 
     test_db = SchoolDatabase(':memory:')  
 
@@ -186,7 +180,7 @@ def test_functionality():
     count = test_db.execute_query("SELECT COUNT(*) FROM Students WHERE city = ?", ('Spb',))
     assert count[0][0] == 3, "Неверный результат универсального запроса"
 
-    print("✅ Все тесты пройдены успешно!")
+    print("Все тесты пройдены успешно!")
 
     test_db.close()
 
